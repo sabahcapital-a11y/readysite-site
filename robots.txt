@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sabahcapital-a11y.github.io/readysite-site/sitemap.xml
