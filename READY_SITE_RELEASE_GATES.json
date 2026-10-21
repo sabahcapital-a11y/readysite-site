@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "business": "ReadySite",
+  "reviewed": "2026-10-21",
+  "production_release_authorized": false,
+  "gate_definitions": [
+    {"id":"SECURITY_TOKEN","name":"Reported credential rotated and access reviewed","state":"blocked","evidence":"October 20 audit states old box clones contain Git remote credential; remediation not independently verified","owner_action":"Rotate credential and confirm no remaining access"},
+    {"id":"LEGAL_TERMS","name":"Accurate and approved terms, privacy, refund and service agreement","state":"blocked","evidence":"Live documents reportedly contain placeholders and conflicting refund/cancellation conditions","owner_action":"Approve commercial policies and obtain applicable legal review"},
+    {"id":"CONTACT_CHANNEL","name":"Monitored ReadySite business contact destination","state":"blocked","evidence":"No connected dedicated ReadySite business inbox established","owner_action":"Choose and connect a ReadySite-owned inbox; verify test receipt"},
+    {"id":"INQUIRY_BACKEND","name":"Secure inbound inquiry intake","state":"blocked","evidence":"Only browser-local illustrative intake exists","owner_action":"Deploy endpoint with spam defenses, consent disclosure and retention controls after contact destination is verified"},
+    {"id":"DELIVERY","name":"End-to-end site generation, QA and rollback","state":"blocked","evidence":"Report documents dry-run examples, not live fulfillment","owner_action":"Test a realistic fictional fixture from intake to deployment and rollback"},
+    {"id":"BILLING","name":"Payment, refunds and subscription lifecycle validated","state":"blocked","evidence":"Report states no production Stripe account","owner_action":"Connect business-owned processor, test charges/webhooks/refunds before enabling checkout"},
+    {"id":"LEGACY_PAGES","name":"Remove obsolete public pricing and unsupported claims","state":"blocked","evidence":"Homepage is staged; 1,100+ existing local and guide pages still require content reconciliation","owner_action":"Audit generated pages and JSON-LD; clean or noindex appropriately"},
+    {"id":"OWNER_DEPLOYMENT","name":"Explicit production release authorization","state":"blocked","evidence":"Current owner approval covers draft work only","owner_action":"Review release candidate and approve merge/deployment"}
+  ]
+}
