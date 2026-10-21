@@ -1,3 +1,18 @@
+## Premium revenue strategy amendment — 2026-10-20
+Owner objective: maximize sustainable recurring income, not merely raise the headline subscription.
+
+**Commercial ladder for validation, NOT approved public sale:**
+- Essential $199/month + $499 setup: core managed website, requires proved delivery.
+- Growth $299/month + $799 setup: adds tangible ongoing content/local visibility work, requires tested implementation and support capacity.
+- Authority $499/month + $999 setup: proposed premium target, requires tested local-presence/GBP and reporting operations, proof of measurable recurring value, and actual costs.
+- AI Operations $997–$1,497/month + $1,999+ setup: strategic future target ONLY. No sales/checkout until Twilio, voice AI, privacy/compliance and operational integrations are validated.
+
+Evidence benchmark: Constructo website as a service starts $299/month (https://constructomarketing.com/services/website-as-a-service); Local Services Pilot advertises $999 setup + $499/month (https://localservicespilot.com/); Foundry advertises AI authority tier $999/month (https://www.foundryagency.net/). Publicly advertised and differently scoped, not proven conversion or product-market fit.
+
+**Release control:** The branch homepage retains only the narrow $499 setup + $99/month hypothesis because none of the higher tiers is production-validated. Do not imply Growth, Authority or AI Operations can be ordered. Test service delivery and customer interest before a new homepage version or production publication. No revenue guarantee. Monthly price optimization must account for churn and cost-to-serve, not merely highest sticker price.
+
+---
+
 ## Amendment — recurring-fee objective
 Owner requested a higher monthly recurring fee. New **provisional primary test** is **$499 one-time setup plus $99/month**, rather than $599 + $39/month. This does not supersede the requirement to validate actual service delivery, acquisition economics, customer retention, and legal terms. First-year gross billings if twelve months are paid: **$1,687**. At 20 retained clients, MRR = **$1,980**. The earlier $599 + $39 model is retained below only as historical research, not the current staging recommendation.
 
