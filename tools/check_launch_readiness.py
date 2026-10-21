@@ -1,51 +1,86 @@
 #!/usr/bin/env python3
-"""ReadySite prelaunch truthfulness smoke checks. Run: python3 tools/check_launch_readiness.py"""
+"""ReadySite prelaunch verification. Exit 0 = staged preview safe, NOT production ready."""
 from pathlib import Path
+from html.parser import HTMLParser
 import json
-import re
 import sys
 
-root = Path(__file__).resolve().parents[1]
-home = (root / "index.html").read_text(encoding="utf-8")
-config = json.loads((root / "READY_SITE_OFFER_MANIFEST.json").read_text(encoding="utf-8"))
-errors = []
-notes = []
+ROOT = Path(__file__).resolve().parents[1]
+HOME = (ROOT / "index.html").read_text(encoding="utf-8")
+INTAKE = (ROOT / "intake-preview.html").read_text(encoding="utf-8")
+MANIFEST = json.loads((ROOT / "READY_SITE_OFFER_MANIFEST.json").read_text(encoding="utf-8"))
+failures = []
+blockers = []
 
-def require(value, message):
-    if not value:
-        errors.append(message)
+class PageInspector(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.forms = 0
+        self.active_submit_buttons = 0
+        self.links = []
+        self.script_sources = []
+        self.meta_robots = []
 
-def deny(value, message):
-    if value:
-        errors.append(message)
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "form":
+            self.forms += 1
+        if tag == "script" and "src" in a:
+            self.script_sources.append(a["src"])
+        if tag == "a":
+            self.links.append(a.get("href", ""))
+        if tag == "button":
+            if a.get("type", "submit") == "submit" and "disabled" not in a:
+                self.active_submit_buttons += 1
+        if tag == "meta" and a.get("name") == "robots":
+            self.meta_robots.append(a.get("content", ""))
 
-pilot = next(item for item in config["offers"] if item["id"] == "website_pilot")
-require(pilot["status"] == "proposed_not_for_sale", "Pilot must remain explicitly unsellable while prelaunch.")
-require(f'${pilot["setup_usd"]}' in home, "Homepage setup price differs from manifest.")
-require(f'${pilot["monthly_usd"]}/month' in home, "Homepage recurring price differs from manifest.")
-require('noindex,nofollow' in home, "Staged page should not be indexed.")
-require("fictional" in home.lower(), "Fictional demonstrations must be disclosed.")
-require("Online inquiries and payments are not active yet." in home, "Truthful prelaunch disclosure missing.")
-for phrase in ("Secure checkout by Stripe", "Live in 24 hours", "refund you in full", "pay only if you want to keep it", "24/7 AI receptionist"):
-    deny(phrase.lower() in home.lower(), f"Unsupported homepage marketing claim: {phrase}")
-deny(bool(re.search(r'<form\\b', home, flags=re.I)), "No unsupported form without a tested backend.")
-deny(bool(re.search(r'mailto:|action=["\\\']https?://', home, flags=re.I)), "Do not invent communication endpoint.")
-for field in ("payment_enabled","inquiries_enabled","outreach_authorized","public_deployment_approved"):
-    require(config.get(field) is False, f"Blocked action prematurely enabled: {field}")
+def check(condition, why):
+    if not condition:
+        failures.append(why)
 
-# This checker is not a comprehensive launch certification.
-legacy = [root / x for x in ["terms.html","refunds.html","privacy.html"]]
-for path in legacy:
-    if path.exists():
-        contents = path.read_text(encoding="utf-8")
-        if "[DATE]" in contents or "Contact: coming soon" in contents:
-            notes.append(f"BLOCKER: {path.name} contains incomplete legal/contact placeholders.")
-if (root / "local").exists():
-    notes.append("BLOCKER: local/ and guides/ have not been validated against current offer manifest.")
-print("ReadySite prelaunch smoke-check")
-for n in notes:
-    print(n)
-for e in errors:
-    print("FAIL:", e)
-print(f"Result: {len(errors)} smoke-check failures; {len(notes)} unresolved release blockers.")
-sys.exit(1 if errors else 0)
+home = PageInspector()
+home.feed(HOME)
+intake = PageInspector()
+intake.feed(INTAKE)
+
+pilot = next((x for x in MANIFEST.get("offers", []) if x.get("id") == "website_pilot"), None)
+check(bool(pilot), "Offer manifest missing website_pilot.")
+if pilot:
+    check(pilot.get("status") == "proposed_not_for_sale", "Pilot must not be listed as selling.")
+    check("$" + str(pilot.get("setup_usd")) in HOME, "Homepage setup and manifest mismatch.")
+    check("$" + str(pilot.get("monthly_usd")) + "/month" in HOME, "Homepage monthly and manifest mismatch.")
+
+for flag in ("payment_enabled", "inquiries_enabled", "outreach_authorized", "public_deployment_approved"):
+    check(MANIFEST.get(flag) is False, "Release flag " + flag + " unexpectedly enabled.")
+
+check("noindex,nofollow" in home.meta_robots, "Unreleased homepage should be noindex.")
+check("noindex,nofollow" in intake.meta_robots, "Internal intake demo should be noindex.")
+check(home.forms == 0 and home.active_submit_buttons == 0, "Homepage must not contain active forms.")
+check(intake.forms == 1 and intake.active_submit_buttons == 1, "Intake demo must have exactly one sample-only form.")
+check("e.preventDefault()" in INTAKE, "Intake demo should prevent submission.")
+check("Customer submission disabled" in INTAKE, "Explicit intake submission disabled notice missing.")
+check(not intake.script_sources, "Intake demo must not load outside scripts.")
+check(not any(x.startswith(("mailto:", "tel:", "https://")) for x in intake.links), "Intake demo must not open external contact endpoints.")
+check("fictional demonstrations" in HOME.lower(), "Fictional example disclosure missing.")
+check("Online inquiries and payments are not active yet." in HOME, "Homepage prelaunch disclosure missing.")
+for bad in ("Secure checkout by Stripe", "Live in 24 hours", "refund you in full", "pay only if you want to keep it", "24/7 AI receptionist"):
+    check(bad.lower() not in HOME.lower(), "Disallowed claim: " + bad)
+
+for name in ("terms.html", "refunds.html", "privacy.html"):
+    content = (ROOT / name).read_text(encoding="utf-8")
+    if "[DATE]" in content or "Contact: coming soon" in content or "DRAFT" in content:
+        blockers.append(name + ": unfinished legal/contact content")
+blockers.append("Existing local/ and guide pages require separate offer/copy/SEO review")
+blockers.append("No verified business inbox, inquiry backend, payments or tested fulfillment")
+blockers.append("Reported exposed token must be rotated; no access to external box to verify")
+
+print("ReadySite staged preview safety checks")
+for f in failures:
+    print("FAIL:", f)
+for b in blockers:
+    print("RELEASE BLOCKER:", b)
+print(str(len(failures)) + " staged-check failures; " + str(len(blockers)) + " production-release blockers")
+if failures:
+    sys.exit(1)
+print("PASS: prelaunch preview only. NOT AUTHORIZED FOR PRODUCTION LAUNCH.")
