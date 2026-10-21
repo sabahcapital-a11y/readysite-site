@@ -14,7 +14,7 @@ Scope: ReadySite only. No authority over other businesses.
 2. Remove contradictory claims of 24-hour launch, paying after preview, and full refunds.
 3. Stop advertising available Stripe checkout without an account.
 4. Disclose examples as fictional; exclude salon from featured examples.
-5. Introduce the $249 website as **proposed** pilot price, not an active order.
+5. Introduce a **proposed pilot website offer**, not an active order. The original $249 hypothesis was superseded by a $599 setup + $39/month proposal in READYSITE_PRICING_OPTIMIZATION.md.
 6. State that AI voice/texting, reputation/inbox automation, and recurring packages are NOT ready for sale.
 7. No fake contact link, fake waitlist, mailto address, or nonfunctional form.
 8. Draft legal document links remain labeled as drafts.
@@ -28,7 +28,7 @@ Scope: ReadySite only. No authority over other businesses.
 - Confirm offer, price, scope, permitted images/content rights, support processes and order fulfillment capacity.
 
 ## Commercial validation
-- Initial candidate: simple website service, $249 first year and proposed $99 annual renewal, subject to owner approval.
+- Initial candidate superseded by independent price review: **$599 setup + $39/month proposed**, subject to validation and owner approval. See READYSITE_PRICING_OPTIMIZATION.md.
 - Compare alternative pricing only after real customer conversations.
 - Require at least three paid, successfully delivered pilots to consider early commercial progress; not statistically proven PMF.
 - Record each lead source, qualified response, signed scope, collected payment, fulfillment cost, delivery hours, support time, refunds, and renewal obligations.
