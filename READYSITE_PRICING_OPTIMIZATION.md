@@ -1,3 +1,12 @@
+## Amendment — recurring-fee objective
+Owner requested a higher monthly recurring fee. New **provisional primary test** is **$499 one-time setup plus $99/month**, rather than $599 + $39/month. This does not supersede the requirement to validate actual service delivery, acquisition economics, customer retention, and legal terms. First-year gross billings if twelve months are paid: **$1,687**. At 20 retained clients, MRR = **$1,980**. The earlier $599 + $39 model is retained below only as historical research, not the current staging recommendation.
+
+Included only when verified: a mobile-friendly one-page site, hosting coordination, basic uptime monitoring, two bounded minor text edits/month, and basic monthly website metrics. Do not claim performance reporting is ready until analytics has been installed and tested. Larger edits, marketing services, rankings, leads, AI reception, SMS, review collection, and custom integrations excluded.
+
+**Risk:** $99 per month without a measurable ongoing service invites churn. Measure support time and willingness-to-pay before treating this as a viable recurring product. Owner must approve final customer terms and launch price.
+
+---
+
 # ReadySite Independent Pricing Optimization — 2026-10-20
 Status: Research recommendation; NOT approved, NOT deployed, NOT payment-ready.
 Scope: ReadySite only; no other Grokbot venture decisions.
