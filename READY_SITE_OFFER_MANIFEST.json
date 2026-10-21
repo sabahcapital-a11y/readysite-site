@@ -1,0 +1,18 @@
+{
+  "business": "ReadySite",
+  "operator": "Sabah Capital, LLC",
+  "status": "prelaunch_no_orders",
+  "currency": "USD",
+  "source_date": "2026-10-20",
+  "offers": [
+    {"id":"website_pilot","name":"Managed Website Pilot","setup_usd":499,"monthly_usd":99,"status":"proposed_not_for_sale","scope":["one_page_website","basic_monitoring_planned","up_to_two_small_text_updates_planned"],"requires":["approved_terms","validated_customer_intake","tested_delivery","billing","owner_approval"]},
+    {"id":"essential","name":"Essential","setup_usd":499,"monthly_usd":199,"status":"future_unvalidated"},
+    {"id":"growth","name":"Growth","setup_usd":799,"monthly_usd":299,"status":"future_unvalidated"},
+    {"id":"authority","name":"Authority","setup_usd":999,"monthly_usd":499,"status":"future_unvalidated"},
+    {"id":"ai_operations","name":"AI Operations","setup_usd_min":1999,"monthly_usd_min":997,"monthly_usd_max":1497,"status":"future_vendor_and_legal_gated"}
+  ],
+  "payment_enabled":false,
+  "inquiries_enabled":false,
+  "outreach_authorized":false,
+  "public_deployment_approved":false
+}
